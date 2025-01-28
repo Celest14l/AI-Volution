@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-Driven Task and Translation App</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 text-gray-900">
+    <!-- Navbar -->
+    <nav class="bg-blue-600 p-4 text-white shadow">
+        <div class="container mx-auto flex justify-between">
+            <h1 class="text-2xl font-bold">AI Task Manager & Translator</h1>
+            <a href="/login" class="text-white hover:underline">Login</a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container mx-auto py-10">
+        <!-- Task Manager Section -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold mb-4">Task Manager</h2>
+            <form action="/add_task" method="POST" class="bg-white shadow p-6 rounded mb-6">
+                <div class="grid gap-4 md:grid-cols-3">
+                    <input type="text" name="title" placeholder="Task Title" class="p-2 border rounded" required>
+                    <input type="datetime-local" name="due_date" class="p-2 border rounded" required>
+                    <select name="priority" class="p-2 border rounded" required>
+                        <option value="High">High</option>
+                        <option value="Medium">Medium</option>
+                        <option value="Low">Low</option>
+                    </select>
+                </div>
+                <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Add Task</button>
+            </form>
+
+            <h3 class="text-lg font-bold mb-2">Your Tasks</h3>
+            <ul class="bg-white shadow p-6 rounded">
+                {% for task_id, task in tasks.items() %}
+                <li class="flex justify-between items-center border-b py-2">
+                    <div>
+                        <strong>{{ task.title }}</strong>
+                        <p class="text-sm text-gray-600">Due: {{ task.due_date }} | Priority: {{ task.priority }}</p>
+                    </div>
+                    <div class="flex gap-2">
+                        <a href="/mark_complete/{{ task_id }}" class="bg-green-500 text-white px-3 py-1 rounded">Complete</a>
+                        <a href="/delete_task/{{ task_id }}" class="bg-red-500 text-white px-3 py-1 rounded">Delete</a>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </section>
+
+        <!-- Translation Section -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold mb-4">Real-Time Translation</h2>
+            <p class="text-gray-700 mb-4">Run the translator system from your terminal. Speak in Hindi, and it will translate to English.</p>
+            <button class="bg-blue-600 text-white px-4 py-2 rounded">Start Translation</button>
+        </section>
+
+        <!-- AI Speech Writer Section -->
+        <section class="mb-10">
+            <h2 class="text-xl font-bold mb-4">AI Speech Writer</h2>
+            <form action="/generate" method="POST" class="bg-white shadow p-6 rounded">
+                <div class="grid gap-4 md:grid-cols-2">
+                    <input type="text" name="topic" placeholder="Topic for speech" class="p-2 border rounded" required>
+                    <select name="type_of_speech" class="p-2 border rounded" required>
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                </div>
+                <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Generate Speech</button>
+            </form>
+        </section>
+
+        <!-- Grammar Correction Section -->
+        <section>
+            <h2 class="text-xl font-bold mb-4">Grammar Correction</h2>
+            <form action="/grammar_correction" method="POST" class="bg-white shadow p-6 rounded">
+                <textarea name="text" rows="4" class="p-2 border rounded w-full" placeholder="Enter text to correct..." required></textarea>
+                <button type="submit" class="mt-4 bg-blue-600 text-white px-4 py-2 rounded">Correct Grammar</button>
+            </form>
+        </section>
+    </div>
+</body>
+</html>
