@@ -1,8 +1,0 @@
-gradio
-flask
-apscheduler
-plyer
-openai
-pyotp
-cryptography
-transformers
